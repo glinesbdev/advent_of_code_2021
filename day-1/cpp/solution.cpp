@@ -6,7 +6,7 @@
 #include <iostream> // output to console
 #include <fstream> // stream data from file
 #include <string> // use strings instead of char*
-#include <vector> // std functions for arrays
+#include <vector> // dynamically growable data containers
 
 // Main program
 int main()
