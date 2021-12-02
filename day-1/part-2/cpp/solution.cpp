@@ -53,7 +53,6 @@ int main()
     return -1;
   }
 
-  size_t window_limit = 3;
   std::vector<int> input {};
   std::string line {};
 
@@ -63,24 +62,18 @@ int main()
   }
 
   int count = 0;
+  size_t window_limit = 3;
   std::vector< std::vector<int> > windows = each_cons(input, window_limit);
-
-  for (auto window : windows)
-    std::cout << "[" << window.at(0) << ", " << window.at(1) << ", " << window.at(2) << "]\n";
-
   std::vector< std::vector<int> >::iterator iter;
 
   for (iter = windows.begin(); iter != windows.end(); ++iter)
   {
-    if (std::next(iter)->size() == window_limit)
-    {
-      int current_value = std::reduce(iter->cbegin(), iter->cend(), 0);
-      int next_value = std::reduce(std::next(iter)->cbegin(), std::next(iter)->cend(), 0);
+    int current_value = std::reduce(iter->cbegin(), iter->cend(), 0);
+    int next_value = std::reduce(std::next(iter)->cbegin(), std::next(iter)->cend(), 0);
 
-      if (current_value < next_value)
-      {
-        count += 1;
-      }
+    if (current_value < next_value)
+    {
+      count += 1;
     }
   }
 
