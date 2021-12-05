@@ -29,7 +29,7 @@ module Bingo
     def parse_data
       matrix_index = -1
 
-      File.foreach('../input.txt', chomp: true).with_index do |line|
+      File.foreach('../../input.txt', chomp: true).with_index do |line|
         if line.include?(',')
           @@input = line.split(',').map(&:to_i)
           next

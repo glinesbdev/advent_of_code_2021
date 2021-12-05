@@ -1,4 +1,4 @@
-input = File.readlines('../input.txt').map(&:strip)
+input = File.readlines('../../input.txt').map(&:strip)
 
 byte_size = input.first.size
 byte = []

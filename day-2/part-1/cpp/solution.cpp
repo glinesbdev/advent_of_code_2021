@@ -39,7 +39,7 @@ int calculate_position(std::vector<std::string> const& input)
 
 int main()
 {
-  std::ifstream file("../input.txt");
+  std::ifstream file("../../input.txt");
 
   if (!file)
   {

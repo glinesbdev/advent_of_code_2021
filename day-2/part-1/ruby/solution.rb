@@ -18,6 +18,6 @@ def calculate_position(input)
   horizontal_pos * depth
 end
 
-input = File.readlines('../input.txt')
+input = File.readlines('../../input.txt')
 
 puts calculate_position(input)

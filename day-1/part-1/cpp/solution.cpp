@@ -18,7 +18,7 @@ int main()
   std::vector<int> input;
 
   // File stream data
-  std::ifstream file("../input.txt");
+  std::ifstream file("../../input.txt");
 
   // Fail with error if we can't open the file
   if (!file)
