@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'ostruct'
-require 'securerandom'
 
 class Board
   attr_reader :rows, :columns
