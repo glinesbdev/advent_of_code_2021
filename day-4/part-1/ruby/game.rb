@@ -1,27 +1,29 @@
 # frozen_string_literal: true
+# Check git history for original solution -- Modified for testability
 
 require_relative './board'
 
-module Bingo
+module Game
   @@last_num = 0
   @@last_marked_board = nil
   @@input = nil
   @@matrices = []
+  @@stop_called = false
 
   class << self
     def play!
       parse_data
-
       boards = @@matrices.map { |matrix| Board.new(matrix: matrix) }
-      matrix_size = @@matrices.first.size - 1
-      col = 0
 
       @@input.each do |num|
         boards.each do |board|
-          update(board, num, col)
-          col = col < matrix_size ? col + 1 : 0
+          break if @@stop_called
+
+          update(board, num)
         end
       end
+
+      @@last_marked_board.unmarked_spots.sum * @@last_num
     end
 
     private
@@ -29,7 +31,7 @@ module Bingo
     def parse_data
       matrix_index = -1
 
-      File.foreach('../../input.txt', chomp: true).with_index do |line|
+      File.foreach(File.expand_path('../../../input.txt', __FILE__), chomp: true).with_index do |line|
         if line.include?(',')
           @@input = line.split(',').map(&:to_i)
           next
@@ -46,16 +48,15 @@ module Bingo
     end
 
     def stop!
-      p @@last_marked_board.unmarked_spots.sum * @@last_num
-      exit
+      @@stop_called = true
     end
 
-    def update(board, num, col)
+    def update(board, num)
       @@last_num = num
       @@last_marked_board = board
 
       board.mark(spot: num)
-      stop! if board.has_completed_row? || board.has_completed_column?(col)
+      stop! if board.has_completed_row? || board.has_completed_column?
     end
   end
 end

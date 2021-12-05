@@ -1,26 +1,29 @@
-def calculate_position(input)
-  horizontal_pos = 0
-  depth = 0
-  aim = 0
+# Check git history for original solution -- Modified for testability
 
-  input.each do |i|
-    command, value = i.split
-    value = value.to_i
-
-    case command
-    when 'forward'
-      horizontal_pos += value
-      depth += aim * value
-    when 'down'
-      aim += value
-    when 'up'
-      aim -= value
-    end
+class Day2Part2
+  def initialize
+    @input = File.readlines(File.expand_path('../../../input.txt', __FILE__), chomp: true)
+    @horizontal_pos = 0
+    @depth = 0
+    @aim = 0
   end
 
-  horizontal_pos * depth
+  def run
+    @input.each do |i|
+      command, value = i.split
+      value = value.to_i
+
+      case command
+      when 'forward'
+        @horizontal_pos += value
+        @depth += @aim * value
+      when 'down'
+        @aim += value
+      when 'up'
+        @aim -= value
+      end
+    end
+
+    @horizontal_pos * @depth
+  end
 end
-
-input = File.readlines('../../input.txt')
-
-puts calculate_position(input)

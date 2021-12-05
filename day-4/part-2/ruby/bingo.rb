@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# Check git history for original solution -- Modified for testability
 
 require_relative './board'
 
@@ -7,21 +8,22 @@ module Bingo
   @@input = nil
   @@matrices = []
   @@winning_boards = []
+  @@stop_called = false
 
   class << self
     def play!
       parse_data
-
       boards = @@matrices.map { |matrix| Board.new(matrix: matrix) }
-      matrix_size = @@matrices.first.size - 1
-      col = 0
 
       @@input.each do |num|
         boards.each do |board|
-          update(board, num, col)
-          col = col < matrix_size ? col + 1 : 0
+          break if @@stop_called
+
+          update(board, num)
         end
       end
+
+      @@winning_boards.last.unmarked_spots.sum * @@winning_num
     end
 
     private
@@ -29,7 +31,7 @@ module Bingo
     def parse_data
       matrix_index = -1
 
-      File.foreach('../../input.txt', chomp: true).with_index do |line|
+      File.foreach(File.expand_path('../../../input.txt', __FILE__), chomp: true).with_index do |line|
         if line.include?(',')
           @@input = line.split(',').map(&:to_i)
           next
@@ -46,8 +48,7 @@ module Bingo
     end
 
     def stop!
-      p @@winning_boards.last.unmarked_spots.sum * @@winning_num
-      exit
+      @@stop_called = true
     end
 
     def add_winner(board)
@@ -55,7 +56,7 @@ module Bingo
       @@winning_boards << board
     end
 
-    def update(board, num, col)
+    def update(board, num)
       @@winning_num = num
 
       board.mark(spot: num)
